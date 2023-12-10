@@ -1,0 +1,58 @@
+{% block content %} {% include "header.html" %}
+
+<!-- Start -->
+<main>
+    <section id="historia">
+        <header>
+            <h1 class="display-3">Historia</h1>
+        </header>
+        <div class="container py-5">
+            <img
+                src="{{ url_for('static', filename='img/zaskawianka-stare-logo.jpg') }}"
+                alt="Stare logo Zaskawianki"
+                class="py-4"
+            />
+            <p class="lead">
+                Początki klubu sięgają czasów powojennych. W miejscu, gdzie
+                obecnie mieści się firma Pionier, rozgrywano mecze ze znanymi
+                drużynami z okolicy. Rywalami piłkarzy z Zaskawia były zespoły z
+                Krakowa, Andrychowa czy Kęt. Najstarsi kibice wspominają, że
+                futbolistom Zaskawianki udało się wówczas wygrać nawet z drużyną
+                Cracovii, która dwa lata wcześniej zdobyła mistrzostwo Polski...
+                Szczegółów jednak nikt nie pamięta, nie zachowały się również
+                żadne notatki w archiwach krakowskiej drużyny. W latach 50-tych
+                klub zawiesił działalność, a piłkarzy wchłonęły drużyny z
+                okolicznych miejscowości.
+            </p>
+            <p class="lead">
+                W 1981 roku społecznicy Stanisław Jończyk, Leopold Nowak,
+                Tadeusz Zemanek, Józef Kwiatek i Julian Jędrygas utworzyli
+                zarząd Ludowego Klubu Sportowego "Zaskawianka" w Wadowicach, a
+                niebawem z pomocą sąsiadów zbudowano boisko. Zadanie nie było
+                łatwe, ponieważ tam, gdzie dziś jest zielona murawa, rosły gęste
+                kępy wikliny. Od początku działalności trzon drużyny stanowili
+                mieszkańcy Zaskawia. W pierwszym oficjalnym meczu piłkarze
+                Zaskawianki ulegli drużynie Kalwarianki, jednak później wynik
+                zweryfikowano na 3:0 dla gospodarzy, gdyż w zespole Kalwarianki
+                grał nieuprawniony zawodnik. Dlatego przyjmuje się, że rok
+                założenia klubu to 1981.
+            </p>
+            <p class="lead">
+                Przez lata klub posiadał jedynie drużynę seniorów grającą w
+                klasie B lub C oraz przez kilka sezonów drużyny juniorów i
+                oldbojów. W roku 2019 po raz pierwszy w historii klub założył
+                drużyny młodzieżowe: Żaków, Orlików i Młodzików. W kolejnych
+                latach udało się stworzyć kolejne drużyny: Skrzatów, Trampkarzy,
+                Juniorów Młodszych i Juniorów Starszych.
+            </p>
+            <p class="lead">
+                W 2021 roku klub zmienił nazwę na Klub Sportowy Zaskawianka
+                Wadowice, zaaktualizowany i poprawiony został pierwotny statut
+                klubu, zmienił się herb i barwy na zielono-czarne.
+            </p>
+            <img src="{{ url_for('static', filename='img/zaskawianka-logo.png') }}" alt="" />
+        </div>
+    </section>
+</main>
+
+{% include "footer.html" %} {% endblock %}

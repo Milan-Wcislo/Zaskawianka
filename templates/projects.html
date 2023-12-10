@@ -1,0 +1,240 @@
+{% block content %} {% include "header.html" %}
+
+<!-- Start -->
+<main>
+    <section id="projekty">
+        <header>
+            <h1 class="display-3">Nasze projekty</h1>
+        </header>
+        <div class="container-fluid my-5">
+            <div class="row px-5">
+                {% if current_user.is_authenticated %}
+                    <a
+                        href="{{ url_for('add_project') }}"
+                        class="btn btn-success btn-lg my-3 w-100"
+                        >Dodaj Projekt</a
+                    >
+                {% endif %}
+                <div class="card-group flex-column flex-xl-row">
+                    {% if projects %}
+                        {% for project in projects %}
+                        <div class="card">
+                            <img
+                                src="{{ url_for('show_project_image', project_id=project.id) }}"
+                                class="card-img-top img-fluid p-4"
+                                alt=""
+                            />
+                            <div class="card-body">
+                                <h3 class="card-title text-center mb-3">
+                                    {{ project.name }}
+                                </h3>
+                                <p class="card-text">
+                                    {{ project.description }}
+                                </p>
+                                {% if current_user.is_authenticated %}
+                                    <div class="d-flex justify-content-center my-3">
+                                        <a
+                                            href="{{ url_for('edit_project', project_id=project.id) }}"
+                                            class="btn btn-success btn-lg w-100"
+                                            >Edytuj</a
+                                        >
+                                    </div>
+                                    <a
+                                        href="#"
+                                        type="button"
+                                        class="btn btn-danger btn-lg w-100"
+                                        data-toggle="modal"
+                                        data-target="#deleteModal{{ project.id }}"
+                                    >
+                                        Usuń
+                                    </a>
+                                    <div
+                                        class="modal"
+                                        id="deleteModal{{ project.id }}"
+                                        tabindex="10"
+                                        role="dialog"
+                                        aria-labelledby="deleteModalLabel{{ project.id }}"
+                                        aria-hidden="true"
+                                    >
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h5
+                                                        class="modal-title"
+                                                        id="deleteModalLabel{{ project.id }}"
+                                                    >
+                                                        Czy na pewno chcesz usunąć: {{
+                                                        project.name }}
+                                                    </h5>
+                                                    <button
+                                                        type="button"
+                                                        class="close"
+                                                        data-dismiss="modal"
+                                                        aria-label="Close"
+                                                    >
+                                                        <span aria-hidden="true">&times;</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Spowoduje to trwałe usunięcie Projektu
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button
+                                                        type="button"
+                                                        class="btn btn-secondary"
+                                                        data-dismiss="modal"
+                                                    >
+                                                        Zamknij
+                                                    </button>
+                                                    <a
+                                                        type="button"
+                                                        class="modal-btn btn btn-danger"
+                                                        href="{{ url_for('delete_project', project_id=project.id) }}"
+                                                    >
+                                                        Usuń Projekt
+                                                    </a>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        {% endfor %}
+                        
+                    {% else %}
+                        <div>Brak projektów</div>
+                    {% endif %}
+                    <!-- 
+                        
+                        <div class="card">
+                        <img
+                            src="img/projects/gwiazdka.png"
+                            class="card-img-top img-fluid p-4"
+                            alt=""
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-3">
+                                Zielony Certyfikat Polskiego Związku Piłki
+                                Nożnej
+                            </h3>
+                            <p class="card-text">
+                                Klub Sportowy Zaskawianka Wadowice otrzymał
+                                Zieloną Gwiazdkę Polskiego Związku Piłki Nożnej
+                                dla szkółek piłkarskich w roku 2022. W programie
+                                biorą udział nasze dwie drużyny - Orlików i
+                                Młodzików. Po weryfikacji treningów i
+                                rozliczeniu dotacji klub otrzymał Zielony
+                                Certyfikat również na rok 2023.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img
+                            src="img/projects/Rzadowy-Program-KLUB-logo-Witaj-W-Klubie.png"
+                            class="card-img-top img-fluid p-4"
+                            alt=""
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-3">
+                                Rządowy Program „Klub”
+                            </h3>
+                            <p class="card-text">
+                                Nasz klub od 2019 roku bierze corocznie udział w
+                                Rządowym Programie „Klub” Ministerstwa Sportu i
+                                Turystyki. W roku 2023 będziemy po raz piąty
+                                składać wniosek o możliwość udziału w projekcie.
+                                W ubiegłorocznym programie „Klub” brały aktywny
+                                udział drużyny trampkarzy i juniorów. W ramach
+                                programu corocznie przeprowadzone są m.in. testy
+                                sprawnościowe, które są wprowadzane do Narodowej
+                                Bazy Talentów.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <img
+                            src="img/projects/DotacjeUM1.jpg"
+                            class="card-img-top img-fluid p-4"
+                            alt=""
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-3">
+                                Dotacje z Urzędu Miejskiego w Wadowicach
+                            </h3>
+                            <p class="card-text">
+                                Od początku działalności nasz klub bierze
+                                corocznie udział w otwartych konkursach ofert w
+                                ramach wspierania i upowszechniania kultury
+                                fizycznej oraz aktywnie współpracuje z Urzędem
+                                Miejskim w Wadowicach. Programy, które mają na
+                                celu upowszechnianie sportu i rekreacji oraz
+                                doskonalenie umiejętności sportowych dzieci i
+                                młodzieży do 24 roku życia z terenu Gminy
+                                Wadowice w piłce nożnej w sposób propagujący
+                                postawy fair play, są głównym źródłem
+                                finansowania bieżącej działalności klubu.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="projects-img-wrap">
+                            <img
+                                src="img/projects/proo.png"
+                                class="card-img-top img-fluid p-4"
+                                alt=""
+                            />
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-3">
+                                Rządowy Program Rozwoju Organizacji
+                                Obywatelskich na lata 2018-2030 PROO
+                            </h3>
+                            <p class="card-text">
+                                W 2022 roku Klub Sportowy Zaskawianka Wadowice
+                                otrzymał dofinansowanie ze środków Narodowego
+                                Instytutu Wolności - Centrum Rozwoju
+                                Społeczeństwa Obywatelskiego w ramach Rządowego
+                                Programu Rozwoju Organizacji Obywatelskich na
+                                lata 2018-2030 PROO. W ramach projektu
+                                zakupiliśmy i postawiliśmy nowe budki dla
+                                zawodników rezerwowych przy głównym boisku.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="projects-img-wrap">
+                            <img
+                                src="img/projects/UrzadPracyWadowice.jpg"
+                                class="card-img-top img-fluid p-4"
+                                alt=""
+                            />
+                        </div>
+                        <div class="card-body">
+                            <h3 class="card-title text-center mb-3">
+                                Niskooprocentowana pożyczka z Funduszu Pracy dla
+                                organizacji pozarządowych z możliwością
+                                umorzenia
+                            </h3>
+                            <p class="card-text">
+                                W 2021 roku Klub Sportowy Zaskawianka Wadowice
+                                otrzymał niewielką pożyczkę z Funduszu Pracy,
+                                realizowaną przez Powiatowy Urząd Pracy w
+                                Wadowicach, która po spełnieniu odpowiednich
+                                warunków finalnie została umorzenia. Pożyczka
+                                została spożytkowana na pokrycie bieżących
+                                kosztów prowadzenia działalności statutowej
+                                klubu. W ramach tego projektu zostały rozpoczęte
+                                prace nad postawieniem nowej szatni gości i
+                                magazynu.
+                            </p>
+                        </div>
+                    </div>
+                    -->
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+
+{% include "footer.html" %} {% endblock %}
