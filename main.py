@@ -9,14 +9,12 @@ from forms import RegisterForm, LoginForm, SponsorForm, TeamForm, ProjectForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '18BYkEfBA6O6d34YJy2GVj3ytc4TY7234nzWlSihBXox7C2340sKR6b'
-app.config['UPLOAD_FOLDER'] = 'media/teams'
 
 Bootstrap4(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-# CONNECT TO DB
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///secure.db'
 db = SQLAlchemy()
 db.init_app(app)
@@ -27,7 +25,6 @@ def load_user(user_id):
     return User.query.get(user_id)
 
 
-# Define the model
 class User(UserMixin, db.Model):
     __tablename__ = "users"
     id = db.Column(db.Integer, primary_key=True)
@@ -35,12 +32,13 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(250), unique=True, nullable=False)
     password = db.Column(db.String(250), nullable=False)
 
+
 class Sponsor(db.Model):
     __tablename__ = "sponsors"
     id = db.Column(db.Integer, primary_key=True)
     img = db.Column(db.BLOB, nullable=False)
     name = db.Column(db.String(250), nullable=False)
-    url = db.Column(db.String(250), nullable=False)
+    url = db.Column(db.String(250), nullable=True)
 
 
 class Team(db.Model):
@@ -70,6 +68,7 @@ with app.app_context():
 def home():
     return render_template("index.html")
 
+
 @app.route('/admin/register', methods=['GET', 'POST'])
 @login_required
 def register():
@@ -93,9 +92,9 @@ def register():
     return render_template("forms.html", form=form, registered=False, is_register=True)
 
 
-@app.route('/admin/login', methods=['GET', 'POST'])
+@app.route('/login', methods=['GET', 'POST'])
 def login():
-    if current_user.is_authenticated:  # already logged in
+    if current_user.is_authenticated:
         return redirect('/home')
     form = LoginForm()
     if form.validate_on_submit():
@@ -113,6 +112,7 @@ def login():
             return redirect(url_for('login'))
     return render_template("forms.html", form=form, registered=False, is_login=True)
 
+
 @app.route('/admin/logout')
 @login_required
 def logout():
@@ -129,12 +129,14 @@ def inject_sponsors():
     sponsors = Sponsor.query.all()
     return dict(sponsors=sponsors)
 
+
 @app.route('/show_sponsor_image/<int:sponsor_id>')
 def show_sponsor_image(sponsor_id):
     sponsor = Sponsor.query.get_or_404(sponsor_id)
     img_data = sponsor.img
 
     return send_file(BytesIO(img_data), mimetype='image/jpeg')
+
 
 @app.route('/dodaj-sponsora', methods=['GET', 'POST'])
 @login_required
@@ -155,6 +157,7 @@ def add_sponsor():
             db.session.commit()
             return redirect(url_for('home'))
     return render_template("forms.html", form=form, is_add_sponsor=True)
+
 
 @app.route('/edycja-sponsora/<int:sponsor_id>', methods=['GET', 'POST'])
 @login_required
@@ -177,6 +180,7 @@ def edit_sponsor(sponsor_id):
         return redirect(url_for('home'))
     return render_template("forms.html", form=form, is_edit_sponsor=True)
 
+
 @app.route('/delete_sponsor/<int:sponsor_id>')
 @login_required
 def delete_sponsor(sponsor_id):
@@ -194,10 +198,12 @@ def delete_sponsor(sponsor_id):
 def club_history():
     return render_template("club/history.html")
 
+
 # Statute
 @app.route('/klub/statut')
 def club_statute():
     return render_template("club/statute.html")
+
 
 # Managment
 @app.route('/klub/zarząd')
@@ -213,12 +219,14 @@ def teams():
     teams = Team.query.order_by(Team.order)
     return render_template("teams.html", teams=teams)
 
+
 @app.route('/show_team_image/<int:team_id>')
 def show_team_image(team_id):
     team = Team.query.get_or_404(team_id)
     img_data = team.img
 
     return send_file(BytesIO(img_data), mimetype='image/jpeg')
+
 
 @app.route('/dodaj-drużyny', methods=['GET', 'POST'])
 @login_required
@@ -242,6 +250,7 @@ def add_team():
             db.session.commit()
             return redirect(url_for('teams'))
     return render_template("forms.html", form=form, is_add_team=True)
+
 
 @app.route('/edycja-drużyny/<int:team_id>', methods=['GET', 'POST'])
 @login_required
@@ -270,6 +279,7 @@ def edit_team(team_id):
         return redirect(url_for('teams'))
     return render_template("forms.html", form=form, is_edit_team=True)
 
+
 @app.route('/delete_team/<int:team_id>')
 @login_required
 def delete_team(team_id):
@@ -295,12 +305,14 @@ def projects():
     projects = Project.query.all()
     return render_template("projects.html", projects=projects)
 
+
 @app.route('/projects/<int:project_id>')
 def show_project_image(project_id):
     project = Project.query.get_or_404(project_id)
     img_data = project.img
 
     return send_file(BytesIO(img_data), mimetype='image/jpeg')
+
 
 @app.route('/dodaj-projekt', methods=['GET', 'POST'])
 @login_required
@@ -324,6 +336,7 @@ def add_project():
 
             return redirect(url_for('home'))
     return render_template("forms.html", form=form, is_add_project=True)
+
 
 @app.route('/edycja-projektu/<int:project_id>', methods=['GET', 'POST'])
 @login_required
@@ -349,6 +362,7 @@ def edit_project(project_id):
 
         return redirect(url_for('home'))
     return render_template("forms.html", form=form, is_edit_project=True)
+
 
 @app.route('/delete_project/<int:project_id>')
 @login_required
