@@ -1,3 +1,4 @@
+import os
 from flask import Flask, render_template, url_for, redirect, flash, request, send_file
 from flask_sqlalchemy import SQLAlchemy
 from flask_bootstrap import Bootstrap4
@@ -8,14 +9,15 @@ from io import BytesIO
 from forms import RegisterForm, LoginForm, SponsorForm, TeamForm, ProjectForm
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = '18BYkEfBA6O6d34YJy2GVj3ytc4TY7234nzWlSihBXox7C2340sKR6b'
+app.config['SECRET_KEY'] = os.environ["SECRET_KEY"]
+# "8B1YkE2A2fBA6O6Bdon3zW4lSihBXox7C0sKR6b"
 
 Bootstrap4(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///secure.db'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ["DB_URI"]
 db = SQLAlchemy()
 db.init_app(app)
 
@@ -69,7 +71,7 @@ def home():
     return render_template("index.html")
 
 
-@app.route('/admin/register', methods=['GET', 'POST'])
+@app.route('/nowy', methods=['GET', 'POST'])
 @login_required
 def register():
     form = RegisterForm()
@@ -382,4 +384,4 @@ def contact():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5002)
+    app.run(debug=False, port=5002)
