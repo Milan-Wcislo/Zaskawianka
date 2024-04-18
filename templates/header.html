@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pl">
+    <head>
+        <meta charset="utf-8" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1, shrink-to-fit=no"
+        />
+        <meta name="description" content="Klub Sportowy Zaskawianka Wadowice" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css"
+            integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w=="
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link
+            rel="icon"
+            type="image/x-icon"
+            href="{{ url_for('static', filename='img/favicon.ico') }}"
+        />
+        {% block styles %}
+        <!-- Load Bootstrap-Flask CSS here -->
+        {{ bootstrap.load_css() }}
+
+        <!-- Slick Slider -->
+        <link
+            href="{{ url_for('static', filename='css/slick.css') }}"
+            type="text/css"
+            rel="stylesheet"
+        />
+        <link
+            href="{{ url_for('static', filename='css/slick-theme.css') }}"
+            type="text/css"
+            rel="stylesheet"
+        />
+
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link
+            href="{{ url_for('static', filename='css/style.css') }}"
+            type="text/css"
+            rel="stylesheet"
+        />
+        {% endblock %}
+        <title>Klub Sportowy Zaskawianka Wadowice</title>
+    </head>
+
+    <body>
+        <!-- Navbar -->
+        <nav class="navbar fixed-top navbar-expand-xl navbar-dark bg-success">
+            <div class="container">
+                <a class="navbar-brand" href="{{ url_for('home')}}"
+                    ><img
+                        src="{{ url_for('static', filename='img/zaskawianka-logo.png') }}"
+                        width="60"
+                        height="60"
+                        alt=""
+                    />
+                    KS Zaskawianka</a
+                >
+                <button
+                    class="navbar-toggler"
+                    type="button"
+                    data-toggle="collapse"
+                    data-target="#navbarSupportedContent"
+                    aria-controls="navbarSupportedContent"
+                    aria-expanded="false"
+                    aria-label="Toggle navigation"
+                >
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div
+                    class="collapse navbar-collapse"
+                    id="navbarSupportedContent"
+                >
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item {% if request.endpoint == 'home' %}active{% endif %}">
+                        <a class="nav-link" href="{{ url_for('home')}}">Strona główna</a>
+                    </li>
+                    <li class="nav-item dropdown {% if request.endpoint in ['club_history', 'club_statute', 'club_management'] %}active{% endif %}">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-expanded="false">
+                            Klub
+                        </a>
+                        <div class="dropdown-menu">
+                            <a class="dropdown-item {% if request.endpoint == 'club_history' %}active{% endif %}" href="{{ url_for('club_history')}}">Historia</a>
+                            <a class="dropdown-item {% if request.endpoint == 'club_statute' %}active{% endif %}" href="{{ url_for('club_statute')}}">Statut</a>
+                            <a class="dropdown-item {% if request.endpoint == 'club_management' %}active{% endif %}" href="{{ url_for('club_management')}}">Zarząd</a>
+                        </div>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'teams' %}active{% endif %}">
+                        <a class="nav-link" href="{{ url_for('teams')}}">Drużyny</a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'regulations' %}active{% endif %}">
+                        <a class="nav-link" href="{{ url_for('regulations')}}">Regulaminy</a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'projects' %}active{% endif %}">
+                        <a class="nav-link" href="{{ url_for('projects')}}">Nasze projekty</a>
+                    </li>
+                    <li class="nav-item {% if request.endpoint == 'contact' %}active{% endif %}">
+                        <a class="nav-link" href="{{ url_for('contact')}}">Kontakt</a>
+                    </li>
+                    {% if current_user.is_authenticated %}
+                    <li class="nav-item"><a class="nav-link fw-bold" href="{{ url_for('logout') }}"><strong>Wyloguj</strong></a></li>
+                    {% endif %}
+                </ul>                
+                </div>
+            </div>
+        </nav>
+    </body>
+</html>

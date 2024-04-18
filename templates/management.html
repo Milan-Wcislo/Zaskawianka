@@ -1,0 +1,27 @@
+{% block content %} {% include "header.html" %}
+
+<!-- Start -->
+<main>
+    <section id="zarzad">
+        <header>
+            <h1 class="display-3">Zarząd</h1>
+        </header>
+        <div class="container py-5">
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('add_management') }}" class="btn btn-success btn-lg my-3 w-100">Dodaj Członka Zarządu</a>
+        {% endif %}
+        <ul class="list-group list-group-flush">
+          {% for member in members %}
+            <li class="list-group-item py-3 d-flex justify-content-between">
+              <p><b>{{ member.position }}</b> - {{ member.name }}<p>
+              <div class="text-end">
+                <a href="{{ url_for('edit_management', management_id=member.id) }}" class="btn btn-success">Edytuj</a>
+                <a href="{{ url_for('delete_management', management_id=member.id) }}" class="btn btn-danger">Usuń</a>
+              </div>
+            </li>
+          {% endfor %}
+        </div>
+    </section>
+</main>
+
+{% include "footer.html" %} {% endblock %}

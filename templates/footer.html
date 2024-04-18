@@ -1,0 +1,287 @@
+<html>
+    <body>
+        <!-- Sponsors -->
+        <aside id="sponors">
+            <h4 class="text-uppercase text-center mt-4 mb-3">Wspierają nas</h4>
+            {% if current_user.is_authenticated %}
+                <a
+                    href="{{ url_for('add_sponsor') }}"
+                    class="btn btn-success btn-lg my-3 w-100"
+                    >Dodaj Sponsora</a
+                >
+            {% endif %}
+
+            <div class="sponsors-slider p-2 mb-2">
+                {% for sponsor in sponsors %}
+                <div class="sponsors-item">
+                    {% if current_user.is_authenticated %}
+                        <a
+                            href="#"
+                            type="button"
+                            class="a-wrapper slider-btn btn btn-danger"
+                            data-toggle="modal"
+                            data-target="#deleteModal{{ sponsor.id }}"
+                        >
+                            Usuń Sponsora
+                        </a>
+                        <div
+                            class="modal"
+                            id="deleteModal{{ sponsor.id }}"
+                            tabindex="10"
+                            role="dialog"
+                            aria-labelledby="deleteModalLabel{{ sponsor.id }}"
+                            aria-hidden="true"
+                        >
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5
+                                            class="modal-title"
+                                            id="deleteModalLabel{{ sponsor.id }}"
+                                        >
+                                            Czy na pewno chcesz usunąć: {{
+                                            sponsor.name }}
+                                        </h5>
+                                        <button
+                                            type="button"
+                                            class="close"
+                                            data-dismiss="modal"
+                                            aria-label="Close"
+                                        >
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Spowoduje to trwałe usunięcie sponsora
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button
+                                            type="button"
+                                            class="btn btn-secondary"
+                                            data-dismiss="modal"
+                                        >
+                                            Zamknij
+                                        </button>
+                                        <a
+                                            type="button"
+                                            class="modal-btn btn btn-danger"
+                                            href="{{ url_for('delete_sponsor', sponsor_id=sponsor.id) }}"
+                                        >
+                                            Usuń Sponsora
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endif %}
+                        <a class="a-wrapper" href="{{ sponsor.url }}"
+                            ><img
+                                src="{{ sponsor.img }}"
+                                alt="{{ sponsor.name }}"
+                        /></a>
+                    {% if current_user.is_authenticated %}
+                        <a
+                            class="a-wrapper slider-btn btn btn-success"
+                            href="{{ url_for('edit_sponsor', sponsor_id=sponsor.id) }}"
+                            >Edytuj Sponsora</a
+                        >
+                    {% endif %}
+                </div>
+                {% endfor %}
+            </div>
+        </aside>
+        <!-- Footer -->
+        <footer class="bg-light page-footer font-small pt-4">
+            <div class="container text-center pb-4">
+                <div class="row">
+                    <div class="col-xl-4 mr-auto mt-xl-4 my-0 mt-4 mb-1">
+                        <h5 class="font-weight-bold text-uppercase mb-4">
+                            Linki
+                        </h5>
+                        <ul class="nav flex-column list-unstyled">
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link {% if request.endpoint == 'home' %}active{% endif %}"
+                                    href="{{ url_for('home')}}"
+                                    >Strona główna</a
+                                >
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a
+                                    class="nav-link dropdown-toggle {% if request.endpoint in ['club_history', 'club_statute', 'club_management'] %}active{% endif %}"
+                                    href="#"
+                                    role="button"
+                                    data-toggle="dropdown"
+                                    aria-expanded="false"
+                                >
+                                    Klub
+                                </a>
+                                <div class="dropdown-menu">
+                                    <a
+                                        class="dropdown-item {% if request.endpoint == 'club_history' %}active{% endif %}"
+                                        href="{{ url_for('club_history')}}"
+                                        >Historia</a
+                                    >
+                                    <a
+                                        class="dropdown-item {% if request.endpoint == 'club_statute' %}active{% endif %}"
+                                        href="{{ url_for('club_statute')}}"
+                                        >Statut</a
+                                    >
+                                    <a
+                                        class="dropdown-item {% if request.endpoint == 'club_management' %}active{% endif %}"
+                                        href="{{ url_for('club_management')}}"
+                                        >Zarząd</a
+                                    >
+                                </div>
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link {% if request.endpoint == 'teams' %}active{% endif %}"
+                                    href="{{ url_for('teams')}}"
+                                    >Drużyny</a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link {% if request.endpoint == 'regulations' %}active{% endif %}"
+                                    href="{{ url_for('regulations')}}"
+                                    >Regulaminy</a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link {% if request.endpoint == 'projects' %}active{% endif %}"
+                                    href="{{ url_for('projects')}}"
+                                    >Nasze projekty</a
+                                >
+                            </li>
+                            <li class="nav-item">
+                                <a
+                                    class="nav-link {% if request.endpoint == 'contact' %}active{% endif %}"
+                                    href="{{ url_for('contact')}}"
+                                    >Kontakt</a
+                                >
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="col-xl-4 mr-auto my-xl-4 my-0 mt-4 mb-1">
+                        <h5 class="font-weight-bold text-uppercase mb-4">
+                            Kontakt
+                        </h5>
+                        <ul class="list-group list-group-flush text-left">
+                            <li class="list-group-item list-group-item-light">
+                                <i class="fa-solid fa-house"></i
+                                ><span class="icon-wrap"
+                                    >ul. Zaskawie 9, 34-100 Wadowice</span
+                                >
+                            </li>
+                            <li class="list-group-item list-group-item-light">
+                                <i class="fa-solid fa-envelope"></i
+                                ><span class="icon-wrap"
+                                    >zaskawianka@wp.pl</span
+                                >
+                            </li>
+                            <li class="list-group-item list-group-item-light">
+                                <i class="fa-solid fa-phone"></i
+                                ><span class="icon-wrap"
+                                    ><a
+                                        class="main-phone"
+                                        href="tel:+48511146979"
+                                        >511 146 979</a
+                                    ></span
+                                >
+                            </li>
+                            <li class="list-group-item list-group-item-light">
+                                <i class="fas fa-credit-card"></i
+                                ><span class="icon-wrap"
+                                    >Krakowski Bank Spółdzielczy
+                                    <div class="bank-wrap">
+                                        61 8591 0007 0340 0570 8507 0001
+                                    </div>
+                                </span>
+                            </li>
+                            <li class="list-group-item list-group-item-light">
+                                <i class="fa-solid fa-landmark"></i
+                                ><span class="icon-wrap">KRS: 0000130690</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <div
+                        class="col-xl-4 mr-auto my-xl-4 my-0 mt-4 mb-1 text-center"
+                    >
+                        <h5 class="font-weight-bold text-uppercase mb-4">
+                            Polub nas
+                        </h5>
+                        <iframe
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fzaskawianka&tabs=timeline&width=340&height=380&small_header=false&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                            width="340"
+                            height="360"
+                            style="border: none; overflow: hidden"
+                            scrolling="no"
+                            frameborder="0"
+                            allowfullscreen="true"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+            <div
+                class="bg-success text-white footer-copyright text-center py-4 px-2"
+            >
+                &copy;
+                <script>
+                    document.write(new Date().getFullYear());
+                </script>
+                Wszelkie Prawa Zastrzeżone:
+                <strong class="text-bold"
+                    >Klub Sportowy Zaskawianka Wadowice</strong
+                >
+                <span class="ml-4"
+                    >Created by: <strong>Milan Wcisło</strong></span
+                >
+            </div>
+        </footer>
+        {% block javascript %} 
+        
+        {{ bootstrap.load_js() }}
+
+        <script
+            type="text/javascript"
+            src="{{ url_for('static', filename='js/slick.min.js') }}"
+        ></script>
+        <script>
+            $(".sponsors-slider").slick({
+                infinite: true,
+                slidesToShow: 5,
+                slidesToScroll: 1,
+                arrows: false,
+                autoplay: true,
+                autoplaySpeed: 2000,
+                responsive: [
+                    {
+                        breakpoint: 1600,
+                        settings: {
+                            slidesToShow: 4,
+                            slidesToScroll: 1,
+                        },
+                    },
+                    {
+                        breakpoint: 966,
+                        settings: {
+                            slidesToShow: 3,
+                            slidesToScroll: 1,
+                        },
+                    },
+                    {
+                        breakpoint: 576,
+                        settings: {
+                            slidesToShow: 2,
+                            slidesToScroll: 1,
+                        },
+                    },
+                ],
+            });
+        </script>
+        {% endblock %}
+    </body>
+</html>

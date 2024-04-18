@@ -1,0 +1,86 @@
+{% block content %} {% include "header.html" %}
+
+<body>
+    <!-- Start -->
+    <main>
+        <section id="index">
+            <div class="banner">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="col-lg-6 order-2 order-lg-1 p-5 column">
+                            <h1>
+                                <strong
+                                    >Klub Sportowy Zaskawianka Wadowice</strong
+                                >
+                            </h1>
+                            <p class="lead">
+                                Warto grać na Zaskawiu! Przyjdź i przekonaj się!
+                            </p>
+                            <a
+                                href="{{ url_for('teams')}}"
+                                type="button"
+                                class="btn btn-outline-light"
+                                >Zobacz Nasze Drużyny!</a
+                            >
+                        </div>
+                        <div class="col-lg-6 order-1 order-lg-2">
+                            <img
+                                class="logo-wrap"
+                                src="{{ url_for('static', filename='img/zaskawianka-logo.png') }}"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="facebook container pb-5">
+                <div class="messages mt-4">
+                    <!-- Flash messages -->
+                    {% with messages = get_flashed_messages() %} {% if
+                        messages %} {% for message in messages %}
+                        <div
+                            class="alert alert-success"
+                            role="alert"
+                        >
+                            {{ message }}
+                        </div>
+                    {% endfor %} {% endif %} {% endwith %}
+                </div>
+                <h2 class="py-5 text-center h1 text-uppercase">Aktualności</h2>
+                <div class="row">
+                    <div class="col-lg-6 column order-1 my-5">
+                        <h3>Bądź z nami na bieżąco!</h3>
+                        <p class="lead">
+                            Aby nie przegapić nowości oraz zbliżających się
+                            wydarzeń, polub nas na facebooku!
+                        </p>
+                        <a
+                            href="https://www.facebook.com/zaskawianka/"
+                            type="button"
+                            class="btn btn-outline-dark"
+                            >Odwiedź nas!</a
+                        >
+                    </div>
+                    <div class="relative col-lg-6">
+                        <img
+                            src="{{ url_for('static', filename='img/phone.png') }}"
+                        />
+
+                        <iframe
+                            src="https://www.facebook.com/plugins/page.php?href=https%3A%2F%2Fwww.facebook.com%2Fzaskawianka%2F&tabs=timeline&width=220&height=500&small_header=true&adapt_container_width=true&hide_cover=false&show_facepile=true&appId"
+                            width="220"
+                            height="380"
+                            style="border: none; overflow: hidden"
+                            scrolling="no"
+                            frameborder="0"
+                            allowfullscreen="true"
+                            allow="autoplay; clipboard-write; encrypted-media; picture-in-picture; web-share"
+                            class="smartfone"
+                        ></iframe>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+{% include "footer.html" %} {% endblock %}

@@ -1,0 +1,135 @@
+{% block content %} {% include "header.html" %}
+
+<body>
+    <!-- Start -->
+    <main>
+        <section id="druzyny">
+            <header>
+                <h1 class="display-3">Drużyny</h1>
+            </header>
+            <div class="container">
+                {% if current_user.is_authenticated %}
+                <a
+                    href="{{ url_for('add_team') }}"
+                    class="btn btn-success btn-lg my-3 w-100"
+                    >Dodaj Drużynę</a
+                >
+                {% endif %}
+                <div class="col-12 py-5">
+                {% if teams %}
+                {% for team in teams %}
+                    <div class="card mb-3">
+                        <img
+                            src="{{ team.img }}"
+                            class="card-img-top img-fluid"
+                            alt="..."
+                        />
+                        <div class="card-body">
+                            <h3 class="card-title text-center pb-2">
+                                {{ team.name }}
+                            </h3>
+                            <hr />
+                            <div class="card-text pt-2">
+                                <div class="row">
+                                    <p class="col-lg-4">
+                                        <i
+                                            class="fa-solid fa-calendar-days"
+                                        ></i>
+                                        Roczniki: {{ team.vintage }}
+                                    </p>
+                                    <p class="col-lg-4">
+                                        <i
+                                            class="fa-solid fa-image-portrait"
+                                        ></i>
+                                        Trener: {{ team.trainer }}
+                                    </p>
+                                    <p class="col-lg-4">
+                                        <i class="fa-solid fa-phone"></i> Tel:
+                                        <a href="tel:+48510150398"
+                                            >{{ team.trainer_phone }}</a
+                                        >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% if current_user.is_authenticated %}
+                        <div class="row">
+                            <a
+                                href="{{ url_for('edit_team', team_id=team.id) }}"
+                                class="btn btn-success btn-lg col-6"
+                                >Edytuj</a
+                            >
+                            <a
+                                href="#"
+                                type="button"
+                                class="btn btn-danger btn-lg col-6"
+                                data-toggle="modal"
+                                data-target="#deleteModal{{ team.id }}"
+                                >Usuń</a
+                            >
+                            <div
+                                class="modal"
+                                id="deleteModal{{ team.id }}"
+                                tabindex="10"
+                                role="dialog"
+                                aria-labelledby="deleteModalLabel{{ team.id }}"
+                                aria-hidden="true"
+                            >
+                                <div class="modal-dialog" role="document">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5
+                                                class="modal-title"
+                                                id="deleteModalLabel{{ team.id }}"
+                                            >
+                                                Czy na pewno chcesz usunąć: {{
+                                                team.name }}
+                                            </h5>
+                                            <button
+                                                type="button"
+                                                class="close"
+                                                data-dismiss="modal"
+                                                aria-label="Close"
+                                            >
+                                                <span aria-hidden="true"
+                                                    >&times;</span
+                                                >
+                                            </button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Spowoduje to trwałe usunięcie Drużyny
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button
+                                                type="button"
+                                                class="btn btn-secondary"
+                                                data-dismiss="modal"
+                                            >
+                                                Zamknij
+                                            </button>
+                                            <a
+                                                type="button"
+                                                class="modal-btn btn btn-danger"
+                                                href="{{ url_for('delete_team', team_id=team.id) }}"
+                                            >
+                                                Usuń Projekt
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                
+                {% endif %}
+                {% endfor %}
+                </div>
+                {% else %}
+                <div class="alert alert-warning" role="alert">Brak Drużyn</div>
+                {% endif %}
+            </div>
+        </section>
+    </main>
+</body>
+
+{% include "footer.html" %} {% endblock %}

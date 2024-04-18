@@ -1,0 +1,55 @@
+{% from "bootstrap4/form.html" import render_form %} {% block content %} {% include "header.html" %}
+
+<main class="wrap">
+    <div class="container py-5">
+        <div class="row">
+            <div class="col-lg-6 col-md-10 mx-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <!-- Titles -->
+                        {% if is_register: %}
+                        <h2 class="card-title text-center">
+                            Dodaj Użytkownika
+                        </h2>
+                        {% elif is_login: %}
+                        <h2 class="card-title text-center">Zaloguj Się</h2>
+                        {% elif is_add_team: %}
+                        <h2 class="card-title text-center">Dodaj Drużynę</h2>
+                        {% elif is_edit_team: %}
+                        <h2 class="card-title text-center">Edytuj Drużynę</h2>
+                        {% elif is_add_sponsor: %}
+                        <h2 class="card-title text-center">Dodaj Sponsora</h2>
+                        {% elif is_edit_sponsor: %}
+                        <h2 class="card-title text-center">Edytuj Sponsora</h2>
+                        {% elif is_add_project: %}
+                        <h2 class="card-title text-center">Dodaj Projekt</h2>
+                        {% elif is_edit_project: %}
+                        <h2 class="card-title text-center">Edytuj Projekt</h2>
+                        {% elif is_add_management: %}
+                        <h2 class="card-title text-center">Dodaj Członka Zarządu</h2>
+                        {% elif is_edit_management: %}
+                        <h2 class="card-title text-center">Edytuj Członka Zarządu</h2>
+                        {% else %}
+                        <h2 class="card-title text-center">Nie wiem</h2>
+                        {% endif %}
+                        <hr />
+                        <!-- Flash messages -->
+                        {% with messages = get_flashed_messages() %} {% if
+                        messages %} {% for message in messages %}
+                        <div
+                            class="alert alert-danger"
+                            role="alert"
+                        >
+                            {{ message }}
+                        </div>
+                        {% endfor %} {% endif %} {% endwith %}
+                        <!-- Form Render -->
+                        {{ render_form(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+{% include "footer.html" %} {% endblock %}
